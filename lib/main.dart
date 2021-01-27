@@ -32,14 +32,24 @@ class MyApp extends StatelessWidget {
           // closer together (more dense) than on mobile platforms.
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: TextTheme(
-              headline5: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: Platform.isIOS ? "Helvetica" : "Google Sans"),
-              subtitle1: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                  fontFamily: Platform.isIOS ? "Helvetica" : "Google Sans"))),
+            headline5: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+                fontFamily: Platform.isIOS ? "Helvetica" : "Google Sans"),
+            subtitle1: TextStyle(
+                fontSize: 14,
+                color: Colors.grey,
+                fontFamily: Platform.isIOS ? "Helvetica" : "Google Sans"),
+            subtitle2: TextStyle(
+                fontSize: 15,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontFamily: Platform.isIOS ? "Helvetica" : "Google Sans"),
+            bodyText1: TextStyle(
+                fontSize: 11,
+                color: Colors.grey,
+                fontFamily: Platform.isIOS ? "Helvetica" : "Google Sans"),
+          )),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -127,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    _context = context;
+    TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Stack(
@@ -144,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       vertical: 8.0, horizontal: 4.0),
                   child: Text(
                     "Deliver now, to:",
-                    style: Theme.of(context).textTheme.subtitle1,
+                    style: textTheme.subtitle1,
                   ),
                 ),
               ],
@@ -155,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "53, Awolowo Road, Ikoyi",
-                    style: Theme.of(context).textTheme.headline5,
+                    style: textTheme.headline5,
                   ),
                 ),
                 Padding(
@@ -215,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       vertical: 8.0, horizontal: 8.0),
                   child: Text(
                     "Est. delivery time: 35 mins",
-                    style: Theme.of(context).textTheme.subtitle1,
+                    style: textTheme.subtitle1,
                   ),
                 ),
                 Spacer(),
@@ -224,7 +234,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       vertical: 8.0, horizontal: 8.0),
                   child: Text(
                     "You first delivery is FREE!",
-                    style: Theme.of(context).textTheme.subtitle1,
+                    style: textTheme.subtitle1,
                   ),
                 ),
               ],
@@ -256,8 +266,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             filter == null || filter == ""
-                ? getFoodItems()
-                : getFilteredFoodItemItems(filter),
+                ? getFoodItems(textTheme)
+                : getFilteredFoodItemItems(textTheme, filter),
           ]),
           Align(
             alignment: Alignment.center,
@@ -265,7 +275,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.9,
                     height: 50,
                     margin: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height / 2,
@@ -275,75 +285,96 @@ class _MyHomePageState extends State<MyHomePage> {
                       shape: CircleBorder(),
                       child: new Text(
                         "Track Order",
-                        style: new TextStyle(color: Colors.white),
+                        style: textTheme.subtitle2,
                       ),
                     ),
                     decoration: BoxDecoration(
                       color: Color(0xff47AF30),
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                   Container(
                     color: Colors.white,
                     margin: EdgeInsets.only(top: 30),
+                    padding: EdgeInsets.only(top: 10, bottom: 30),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 8.0),
                               child: SvgPicture.asset(
                                 "assets/svg/food.svg",
-                                width: 30,
-                                height: 30,
+                                width: 24,
+                                height: 24,
                               ),
                             ),
                             Text(
                               "FOOD",
-                              style: Theme.of(context).textTheme.subtitle1,
+                              style:
+                                  textTheme.bodyText1.apply(color: Colors.red),
                             )
                           ],
                         ),
                         Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 8.0),
                               child: SvgPicture.asset(
                                 "assets/svg/search.svg",
-                                width: 30,
-                                height: 30,
+                                width: 24,
+                                height: 24,
                               ),
                             ),
-                            Text("EXPLORE")
+                            Text("EXPLORE", style: textTheme.bodyText1)
                           ],
                         ),
                         Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 8.0),
                               child: SvgPicture.asset(
                                 "assets/svg/order.svg",
-                                width: 30,
-                                height: 30,
+                                width: 24,
+                                height: 24,
                               ),
                             ),
-                            Text("ORDERS")
+                            Text("ORDERS", style: textTheme.bodyText1)
                           ],
                         ),
                         Column(
                           children: [
                             Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                "%",
-                                style: TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey),
+                              child: Stack(
+                                children: [
+                                  Text(
+                                    "%",
+                                    style: TextStyle(
+                                        fontSize: 24,
+                                        fontFamily: "Google Sans",
+                                        color: Colors.grey),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 20.0, top: 2.0, right: 2.0),
+                                      child: SvgPicture.asset(
+                                          "assets/svg/dot.svg"),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
-                            Text("DEALS")
+                            Text(
+                              "DEALS",
+                              style: textTheme.bodyText1,
+                            )
                           ],
                         ),
                       ],
@@ -358,13 +389,14 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget getFoodItems() {
+  Widget getFoodItems(TextTheme textTheme) {
     return Column(
         children: Dummy.FOOD_ITEMS
             .map<Widget>((FoodItem foodItem) => Stack(
                   children: [
                     Card(
                       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                      elevation: 4,
                       shape: RoundedRectangleBorder(
                           side:
                               BorderSide(color: Theme.of(context).buttonColor),
@@ -385,13 +417,22 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             title: Text(
                               foodItem.title,
-                              style: Theme.of(context).textTheme.headline5,
+                              style: textTheme.headline5,
                             ),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(foodItem.description),
-                                Text("As low as \u{20A6}${foodItem.price}")
+                                Text(foodItem.description,
+                                    style: textTheme.subtitle1),
+                                Text.rich(
+                                    TextSpan(text: "As low as ", children: [
+                                  TextSpan(text: "\u{20A6}"),
+                                  TextSpan(
+                                      text: "${foodItem.price}",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1),
+                                ]))
                               ],
                             ),
                             trailing: Padding(
@@ -419,7 +460,7 @@ class _MyHomePageState extends State<MyHomePage> {
             .toList());
   }
 
-  getFilteredFoodItemItems(String filter) {
+  getFilteredFoodItemItems(TextTheme textTheme, String filter) {
     return Column(
         children: Dummy.FOOD_ITEMS
             .where((FoodItem foodItem) =>
@@ -428,6 +469,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Card(
                       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                      elevation: 4,
                       shape: RoundedRectangleBorder(
                           side:
                               BorderSide(color: Theme.of(context).buttonColor),
@@ -448,13 +490,22 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             title: Text(
                               foodItem.title,
-                              style: Theme.of(context).textTheme.headline5,
+                              style: textTheme.headline5,
                             ),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(foodItem.description),
-                                Text("As low as \u{20A6}${foodItem.price}")
+                                Text(foodItem.description,
+                                    style: textTheme.subtitle1),
+                                Text.rich(
+                                    TextSpan(text: "As low as ", children: [
+                                  TextSpan(text: "\u{20A6}"),
+                                  TextSpan(
+                                      text: "${foodItem.price}",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1),
+                                ]))
                               ],
                             ),
                             trailing: Padding(
